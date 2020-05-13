@@ -7,14 +7,21 @@ const UserSignupPage = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [pendingApiCall, setPendingApiCall] = useState(false)
 
-  const onClickSignup = () => {
+  const onClickSignup = async() => {
     const user = {
       username,
       displayName,
       password,
     };
-    actions.postSignup(user);
+    setPendingApiCall(true)
+    try {
+      await actions.postSignup(user);
+    } catch (error) {
+      setPendingApiCall(false)
+    }
+    setPendingApiCall(false)
   };
 
   return (
@@ -72,7 +79,11 @@ const UserSignupPage = (props) => {
             className="btn btn-primary"
             onClick={onClickSignup}
             type="submit"
+            disabled={pendingApiCall}
           >
+            {pendingApiCall && <div className="spinner-border text-light spinner-border-sm mr-sm-1" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>}
             Sign Up
           </button>
         </div>
