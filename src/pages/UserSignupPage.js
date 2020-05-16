@@ -8,6 +8,7 @@ const UserSignupPage = (props) => {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [pendingApiCall, setPendingApiCall] = useState(false)
+  const [errorsState, setErrorsState] = useState({})
 
   const onClickSignup = async() => {
     const user = {
@@ -18,7 +19,13 @@ const UserSignupPage = (props) => {
     setPendingApiCall(true)
     try {
       await actions.postSignup(user);
-    } catch (error) {
+    } catch (apiErros) {
+      const {data} = apiErros.response
+      let errors = {...errorsState}
+      if(data && data.validationErrors ) {
+        errors = {...data.validationErrors}
+      }
+      setErrorsState(errors)
       setPendingApiCall(false)
     }
     setPendingApiCall(false)
@@ -38,6 +45,9 @@ const UserSignupPage = (props) => {
             type="text"
             placeholder="Your display name"
           />
+          <div className="invalid-feedback">
+            {errorsState.displayName}
+          </div>
         </div>
         <div className="col-12 mb-3">
           <label>User name</label>
