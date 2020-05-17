@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Input from "components/Input";
 
 const UserSignupPage = (props) => {
   const { actions } = props;
@@ -37,50 +38,51 @@ const UserSignupPage = (props) => {
 
       <div>
         <div className="col-12 mb-3">
-          <label>Display name</label>
-          <input
-            className="form-control"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-            type="text"
+          <Input
+            label="Display name"
             placeholder="Your display name"
-          />
-          <div className="invalid-feedback">
-            {errorsState.displayName}
-          </div>
-        </div>
-        <div className="col-12 mb-3">
-          <label>User name</label>
-          <input
-            className="form-control"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={displayName}
+            onChange={setDisplayName}
+            hasError={errorsState.displayName && true}
+            error={errorsState.displayName}
             type="text"
+          />
+        </div>
+        <div className="col-12 mb-3">
+          <Input
+            label="User name"
             placeholder="Your username"
+            value={username}
+            onChange={setUsername}
+            hasError={errorsState.username && true}
+            error={errorsState.username}
+            type="text"
           />
         </div>
         <div className="col-12 mb-3">
-          <label>Password</label>
-          <input
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            name=""
-            id=""
+          <Input
+            label="Password"
             placeholder="Your password"
-          />
-        </div>
-        <div className="col-12 mb-3">
-          <label>Repeat password</label>
-          <input
-            className="form-control"
-            value={repeatPassword}
-            onChange={(e) => setRepeatPassword(e.target.value)}
+            value={password}
+            onChange={setPassword}
+            hasError={errorsState.password && true}
+            error={errorsState.password}
             type="password"
             name=""
             id=""
+          />
+        </div>
+        <div className="col-12 mb-3">
+        <Input
+            label="Repeat password"
             placeholder="Repeat your password"
+            value={repeatPassword}
+            onChange={setRepeatPassword}
+            hasError={errorsState.repeatPassword && true}
+            error={errorsState.repeatPassword}
+            type="password"
+            name=""
+            id=""
           />
         </div>
 
