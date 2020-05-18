@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Input from "components/Input";
 
 const UserSignupPage = (props) => {
@@ -10,6 +10,35 @@ const UserSignupPage = (props) => {
   const [repeatPassword, setRepeatPassword] = useState("");
   const [pendingApiCall, setPendingApiCall] = useState(false)
   const [errorsState, setErrorsState] = useState({})
+  const [passwordRepeatConfirmed, setPasswordRepeatConfirmed] = useState(true)
+
+  useEffect(() => {
+    function passwordValidation() {
+      setPasswordRepeatConfirmed(prevState => (password === repeatPassword))
+      if(passwordRepeatConfirmed === true)
+        setErrorsState({...errorsState, repeatPassword: ''}) 
+      else
+        setErrorsState({...errorsState, repeatPassword: 'Does not match to password'}) 
+    }
+    
+    passwordValidation()
+
+  }, [password, repeatPassword, passwordRepeatConfirmed])
+
+  function onChangeDisplayName(value) {
+    const copyOfErrors = errorsState
+    delete copyOfErrors.displayName
+    setDisplayName(value)
+    setErrorsState(copyOfErrors)
+  }
+
+  function onChangeUsername(value) {
+    const copyOfErrors = errorsState
+    delete copyOfErrors.username
+    setUsername(value)
+    setErrorsState(copyOfErrors)
+  }
+
 
   const onClickSignup = async() => {
     const user = {
@@ -42,7 +71,7 @@ const UserSignupPage = (props) => {
             label="Display name"
             placeholder="Your display name"
             value={displayName}
-            onChange={setDisplayName}
+            onChange={onChangeDisplayName}
             hasError={errorsState.displayName && true}
             error={errorsState.displayName}
             type="text"
@@ -53,7 +82,7 @@ const UserSignupPage = (props) => {
             label="User name"
             placeholder="Your username"
             value={username}
-            onChange={setUsername}
+            onChange={onChangeUsername}
             hasError={errorsState.username && true}
             error={errorsState.username}
             type="text"
@@ -91,7 +120,7 @@ const UserSignupPage = (props) => {
             className="btn btn-primary"
             onClick={onClickSignup}
             type="submit"
-            disabled={pendingApiCall}
+            disabled={pendingApiCall || !passwordRepeatConfirmed}
           >
             {pendingApiCall && <div className="spinner-border text-light spinner-border-sm mr-sm-1" role="status">
               <span className="sr-only">Loading...</span>
