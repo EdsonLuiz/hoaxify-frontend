@@ -1,18 +1,20 @@
 import React from 'react';
 import './App.css';
-import UserSignupPage from 'pages/UserSignupPage';
+// import UserSignupPage from 'pages/UserSignupPage';
 
 import * as apiCalls from './apis/apiCalls'
+import LoginPage from 'pages/LoginPage';
 
 function App() {
 
-  const actions = {
-    postSignup: apiCalls.signup
-  }
+  // const actions = {
+  //   postSignup: apiCalls.signup
+  // }
 
   return (
     <>
-      <UserSignupPage actions={actions} />
+      {/* <UserSignupPage actions={actions} /> */}
+      <LoginPage />
     </>
   );
 }
